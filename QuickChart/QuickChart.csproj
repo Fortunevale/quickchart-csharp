@@ -3,12 +3,13 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net7.0</TargetFrameworks>
+	<PlatformTarget>x64</PlatformTarget>
     <PackOnBuild>true</PackOnBuild>
-    <Authors>Ian Webster</Authors>
-    <Copyright>Ian Webster</Copyright>
+    <Authors>Ian Webster, TheXorog</Authors>
+    <Copyright>Ian Webster, TheXorog</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Owners>QuickChart</Owners>
-    <PackageProjectUrl>https://github.com/typpo/quickchart-csharp</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/TheXorog/quickchart-csharp</PackageProjectUrl>
     <Summary>Client library for the QuickChart Chart API, used to generate chart images.</Summary>
     <PackageTags>chart image, chart api, chart, charts, image charts</PackageTags>
     <Title>QuickChart</Title>
