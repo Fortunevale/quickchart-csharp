@@ -33,100 +33,88 @@ namespace QuickChart
 
         public Chart(string scheme = null, string host = null, int? port = null)
         {
-            Width = 500;
-            Height = 300;
-            DevicePixelRatio = 1.0;
-            Format = "png";
-            BackgroundColor = "transparent";
+            this.Width = 500;
+            this.Height = 300;
+            this.DevicePixelRatio = 1.0;
+            this.Format = "png";
+            this.BackgroundColor = "transparent";
 
             if (host != null)
             {
-                Host = host;
+                this.Host = host;
                 if (scheme != null)
                 {
-                    Scheme = scheme;
-                    if (port.HasValue)
-                    {
-                        Port = port.Value;
-                    }
-                    else
-                    {
-                        if(scheme == "http")
-                        {
-                            Port = 80;
-                        }
-                        else
-                        {
-                            Port = 443;
-                        }
-                    }
+                    this.Scheme = scheme;
+                    this.Port = port ?? (scheme == "http" ? 80 : 443);
                 }
                 else
                 {
-                    Scheme = "https";
-                    Port = 443;
+                    this.Scheme = "https";
+                    this.Port = 443;
                 }
             }
             else
             {
-                Scheme = "https";
-                Host = "quickchart.io";
-                Port = 443;
+                this.Scheme = "https";
+                this.Host = "quickchart.io";
+                this.Port = 443;
             }
         }
 
         public string GetUrl()
         {
-            if (Config == null)
+            if (this.Config == null)
             {
                 throw new NullReferenceException("You must set Config on the QuickChart object before generating a URL");
             }
 
-            StringBuilder builder = new StringBuilder();
-            builder.Append("w=").Append(Width.ToString());
-            builder.Append("&h=").Append(Height.ToString());
+            var builder = new StringBuilder();
+            _ = builder.Append("w=").Append(this.Width.ToString());
+            _ = builder.Append("&h=").Append(this.Height.ToString());
 
-            builder.Append("&devicePixelRatio=").Append(DevicePixelRatio.ToString());
-            builder.Append("&f=").Append(Format);
-            builder.Append("&bkg=").Append(Uri.EscapeDataString(BackgroundColor));
-            builder.Append("&c=").Append(Uri.EscapeDataString(Config));
-            if (!string.IsNullOrEmpty(Key))
+            _ = builder.Append("&devicePixelRatio=").Append(this.DevicePixelRatio.ToString());
+            _ = builder.Append("&f=").Append(this.Format);
+            _ = builder.Append("&bkg=").Append(Uri.EscapeDataString(this.BackgroundColor));
+            _ = builder.Append("&c=").Append(Uri.EscapeDataString(this.Config));
+            if (!string.IsNullOrEmpty(this.Key))
             {
-                builder.Append("&key=").Append(Uri.EscapeDataString(Key));
+                _ = builder.Append("&key=").Append(Uri.EscapeDataString(this.Key));
             }
-            if (!string.IsNullOrEmpty(Version))
+            if (!string.IsNullOrEmpty(this.Version))
             {
-                builder.Append("&v=").Append(Uri.EscapeDataString(Version));
+                _ = builder.Append("&v=").Append(Uri.EscapeDataString(this.Version));
             }
 
-            return $"{Scheme}://{Host}:{Port}/chart?{builder}";
+            return $"{this.Scheme}://{this.Host}:{this.Port}/chart?{builder}";
         }
 
         public string GetShortUrl()
         {
-            if (Config == null)
+            if (this.Config == null)
             {
                 throw new NullReferenceException("You must set Config on the QuickChart object before generating a URL");
             }
 
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.IgnoreNullValues = true;
-
-            String json = JsonSerializer.Serialize(new
+            var options = new JsonSerializerOptions
             {
-                width = Width,
-                height = Height,
-                backgroundColor = BackgroundColor,
-                devicePixelRatio = DevicePixelRatio,
-                format = Format,
-                chart = Config,
-                key = Key,
-                version = Version,
+                IgnoreNullValues = true
+            };
+
+            var json = JsonSerializer.Serialize(new
+            {
+                width = this.Width,
+                height = this.Height,
+                backgroundColor = this.BackgroundColor,
+                devicePixelRatio = this.DevicePixelRatio,
+                format = this.Format,
+                chart = this.Config,
+                key = this.Key,
+                version = this.Version,
             }, options);
 
-            string url = $"{Scheme}://{Host}:{Port}/chart/create";
+            var url = $"{this.Scheme}://{this.Host}:{this.Port}/chart/create";
 
-            HttpResponseMessage response = Client.PostAsync(
+            var response = Client.PostAsync(
                 url,
                 new StringContent(json, Encoding.UTF8, "application/json")
             ).Result;
@@ -136,52 +124,49 @@ namespace QuickChart
                 throw new ApiException("Unsuccessful response from API", response);
             }
 
-            string responseText = response.Content.ReadAsStringAsync().Result;
-            QuickChartShortUrlResponse result = JsonSerializer.Deserialize<QuickChartShortUrlResponse>(responseText);
+            var responseText = response.Content.ReadAsStringAsync().Result;
+            var result = JsonSerializer.Deserialize<QuickChartShortUrlResponse>(responseText);
             return result.url;
         }
 
         public byte[] ToByteArray()
         {
-            if (Config == null)
+            if (this.Config == null)
             {
                 throw new NullReferenceException("You must set Config on the QuickChart object before generating a URL");
             }
 
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.IgnoreNullValues = true;
-
-            String json = JsonSerializer.Serialize(new
+            var options = new JsonSerializerOptions
             {
-                width = Width,
-                height = Height,
-                backgroundColor = BackgroundColor,
-                devicePixelRatio = DevicePixelRatio,
-                format = Format,
-                chart = Config,
-                key = Key,
-                version = Version,
+                IgnoreNullValues = true
+            };
+
+            var json = JsonSerializer.Serialize(new
+            {
+                width = this.Width,
+                height = this.Height,
+                backgroundColor = this.BackgroundColor,
+                devicePixelRatio = this.DevicePixelRatio,
+                format = this.Format,
+                chart = this.Config,
+                key = this.Key,
+                version = this.Version,
             }, options);
 
-            string url = $"{Scheme}://{Host}:{Port}/chart";
+            var url = $"{this.Scheme}://{this.Host}:{this.Port}/chart";
 
-            HttpResponseMessage response = Client.PostAsync(
+            var response = Client.PostAsync(
                 url,
                 new StringContent(json, Encoding.UTF8, "application/json")
             ).Result;
 
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new ApiException("Unsuccessful response from API", response);
-            }
-
-            return response.Content.ReadAsByteArrayAsync().Result;
+            return !response.IsSuccessStatusCode
+                ? throw new ApiException("Unsuccessful response from API", response)
+                : response.Content.ReadAsByteArrayAsync().Result;
         }
 
-        public void ToFile(string filePath)
-        {
-            File.WriteAllBytes(filePath, this.ToByteArray());
-        }
+        public void ToFile(string filePath) 
+            => File.WriteAllBytes(filePath, this.ToByteArray());
     }
 
     public class ApiException : Exception
