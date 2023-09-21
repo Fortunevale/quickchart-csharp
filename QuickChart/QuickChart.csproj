@@ -4,6 +4,8 @@
     <OutputType>Library</OutputType>
     <TargetFrameworks>net7.0</TargetFrameworks>
 	<PlatformTarget>x64</PlatformTarget>
+	<Configurations>Debug;Release;x64</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Ian Webster, TheXorog</Authors>
     <Copyright>Ian Webster, TheXorog</Copyright>
