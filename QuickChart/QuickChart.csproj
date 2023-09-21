@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1;netstandard2.0;net472</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
     <PackOnBuild>true</PackOnBuild>
     <Authors>Ian Webster</Authors>
     <Copyright>Ian Webster</Copyright>
