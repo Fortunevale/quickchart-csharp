@@ -18,6 +18,7 @@
     <Description>Client library for the QuickChart Chart API, used to generate chart images.</Description>
     <PackageVersion>2.3.0</PackageVersion>
     <PackageId>QuickChart</PackageId>
+    <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
   </PropertyGroup>
 
   <ItemGroup>
